@@ -20,7 +20,7 @@ class Commentaire(models.Model):
     id_commentaire_parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, db_column='id_commentaire_parent')
     id_projet = models.ForeignKey(Projet, on_delete=models.CASCADE, db_column='id_projet')
     contenue = models.CharField(max_length=255, null=True, blank=True)
-    date_creation = models.DateField(auto_now_add=True)
+    date_creation = models.DateTimeField(default=timezone.now)
     etat = models.CharField(max_length=255, null=True, blank=True)
     nb_jaime = models.IntegerField(default=0)
 

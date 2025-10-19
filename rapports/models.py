@@ -1,5 +1,6 @@
 from django.db import models
 
+from django.utils import timezone
 from projets.models import Projet
 from utilisateurs.models import Utilisateur
 
@@ -29,7 +30,8 @@ class Rapport(models.Model):
     observation = models.CharField(max_length=255, null=True, blank=True)
     solution = models.CharField(max_length=255, null=True, blank=True)
     probleme = models.CharField(max_length=255, null=True, blank=True)
-    date_creation = models.DateField(auto_now_add=True)
+    date_creation = models.DateTimeField(default=timezone.now)
+    date_update = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"Rapport {self.id_rapport} - {self.id_projet}"

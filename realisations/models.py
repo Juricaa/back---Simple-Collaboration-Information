@@ -1,6 +1,7 @@
 from django.db import models
 
 from rapports.models import Rapport
+from django.utils import timezone
 
 def custom_realisation_id():
     last_realisation = Realisation.objects.all().order_by('id_realisation').last()
@@ -20,7 +21,7 @@ class Realisation(models.Model):
     debut_realisation = models.DateField(null=True, blank=True)
     fin_realisation = models.DateField(null=True, blank=True)
     ecart_realisation = models.CharField(max_length=255, null=True, blank=True)
-    date_creation = models.DateField(auto_now_add=True)
+    date_creation = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"Réalisation {self.id_realisation}"
