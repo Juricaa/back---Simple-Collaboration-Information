@@ -33,3 +33,6 @@ class Notification(models.Model):
     date_creation = models.DateTimeField(auto_now_add=True)
     est_lu = models.BooleanField(default=False)
 
+    class Meta:
+        db_table = 'notification'
+
