@@ -110,6 +110,7 @@ INSTALLED_APPS = [
     'realisations.apps.RealisationsConfig',
     'commentaires.apps.CommentairesConfig',
     'entitesprojets.apps.EntitesProjetsConfig',
+    'notifications.apps.NotificationsConfig',
    
 
     
