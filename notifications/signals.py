@@ -144,3 +144,39 @@ def handle_projet_notifications(sender, instance, created, **kwargs):
                     id_cible=instance.id_projet,
                     role_cible='admin'
                 )
+
+    # Notifications pour validation ou rejet du projet
+    if not created and instance.statut in ['Validé', 'Rejeté'] and instance.date_validation is not None:
+        # Vérifier si une notification pour ce statut existe déjà
+        if not Notification.objects.filter(type='projet', id_cible=instance.id_projet, titre__icontains=instance.statut.lower()).exists():
+            if instance.statut == 'Validé':
+                # Notifier le propriétaire du projet
+                Notification.objects.create(
+                    id_utilisateur=instance.id_utilisateur,
+                    titre='Projet validé',
+                    message=f'Votre projet {instance.titre or instance.id_projet} a été validé.',
+                    type='projet',
+                    id_cible=instance.id_projet,
+                    role_cible=None
+                )
+            elif instance.statut == 'Rejeté':
+                # Notifier le propriétaire du projet
+                Notification.objects.create(
+                    id_utilisateur=instance.id_utilisateur,
+                    titre='Projet rejeté',
+                    message=f'Votre projet {instance.titre or instance.id_projet} a été rejeté.',
+                    type='projet',
+                    id_cible=instance.id_projet,
+                    role_cible=None
+                )
+                # Notifier les administrateurs
+                admins = Utilisateur.objects.filter(role='admin')
+                for admin in admins:
+                    Notification.objects.create(
+                        id_utilisateur=admin,
+                        titre='Projet rejeté',
+                        message=f'Le projet {instance.titre or instance.id_projet} ({instance.id_projet}) a été rejeté.',
+                        type='projet',
+                        id_cible=instance.id_projet,
+                        role_cible='admin'
+                    )
